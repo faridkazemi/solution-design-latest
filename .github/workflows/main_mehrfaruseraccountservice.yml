@@ -29,14 +29,12 @@ jobs:
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: pwsh
         run: |
-            Write-Host "AZURE_FUNCTIONAPP_PACKAGE_PATH = $env:AZURE_FUNCTIONAPP_PACKAGE_PATH"
-            Get-ChildItem -Path "$env:AZURE_FUNCTIONAPP_PACKAGE_PATH"
-            Push-Location "$env:AZURE_FUNCTIONAPP_PACKAGE_PATH"
-            dotnet build --configuration Release --output ./output
-            Pop-Location
-            pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-            dotnet build --configuration Release --output ./output
-            popd
+          $fullPath = "$env:AZURE_FUNCTIONAPP_PACKAGE_PATH/UserService"
+          Write-Host "Full path = $fullPath"
+          Get-ChildItem -Path $fullPath
+          Push-Location $fullPath
+          dotnet build --configuration Release --output ./output
+          Pop-Location
       
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
