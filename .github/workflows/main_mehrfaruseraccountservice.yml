@@ -42,5 +42,5 @@ jobs:
         with:
           app-name: 'MehrFarUserAccountService'
           slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/UserService'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C42C2CD4DE9431BBB1B82977CA8CEBC }}
