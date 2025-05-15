@@ -28,12 +28,13 @@ jobs:
 
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: pwsh
-          echo "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}"
-          ls -la "${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}"
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          $fullPath = "$env:AZURE_FUNCTIONAPP_PACKAGE_PATH/UserService"
+          Write-Host "Full path = $fullPath"
+          Get-ChildItem -Path $fullPath
+          Push-Location $fullPath
           dotnet build --configuration Release --output ./output
-          popd
+          Pop-Location
       
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
@@ -41,5 +42,5 @@ jobs:
         with:
           app-name: 'MehrFarUserAccountService'
           slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/UserService/output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C42C2CD4DE9431BBB1B82977CA8CEBC }}
